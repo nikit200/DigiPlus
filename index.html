@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hierarchical Tree Formation</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      #tree-container {
+        margin: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        max-width: 500px;
+      }
+
+      .node {
+        margin-bottom: 10px;
+      }
+
+      .btn {
+        margin-right: 5px;
+        cursor: pointer;
+      }
+
+      .single-node {
+        background-color: #f0f0f0;
+      }
+
+      .child-node {
+        background-color: #d9fcd9;
+        margin-left: 20px;
+      }
+
+      .parent-node {
+        background-color: #d9d9f3;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="tree-container">
+      <div id="tree-root" class="node single-node">
+        <span>Root Node</span>
+        <button class="btn" onclick="addNode('single', this.parentNode)">
+          Add Single Node
+        </button>
+        <button class="btn" onclick="addNode('child', this.parentNode)">
+          Add Child Node
+        </button>
+        <button class="btn" onclick="addNode('parent', this.parentNode)">
+          Add Parent Node
+        </button>
+        <button class="btn" onclick="updateNode(this.parentNode)">
+          Update
+        </button>
+        <button class="btn" onclick="deleteNode(this.parentNode)">
+          Delete
+        </button>
+      </div>
+    </div>
+
+    <script>
+      function addNode(nodeType, parentNode) {
+        const newNode = document.createElement("div");
+        newNode.classList.add("node", nodeType + "-node");
+        newNode.innerHTML =
+          "<span>New " +
+          capitalizeFirstLetter(nodeType) +
+          " Node</span>" +
+          '<button class="btn" onclick="addNode(\'single\', this.parentNode)">Add Single Node</button>' +
+          '<button class="btn" onclick="addNode(\'child\', this.parentNode)">Add Child Node</button>' +
+          '<button class="btn" onclick="addNode(\'parent\', this.parentNode)">Add Parent Node</button>' +
+          '<button class="btn" onclick="updateNode(this.parentNode)">Update</button>' +
+          '<button class="btn" onclick="deleteNode(this.parentNode)">Delete</button>';
+
+        if (nodeType === "child" || nodeType === "parent") {
+          newNode.style.marginLeft = "20px";
+        }
+
+        parentNode.appendChild(newNode);
+      }
+
+      function updateNode(node) {
+        const newText = prompt(
+          "Enter new text for the node:",
+          node.querySelector("span").innerText
+        );
+        if (newText !== null) {
+          node.querySelector("span").innerText = newText;
+        }
+      }
+
+      function deleteNode(node) {
+        const confirmation = confirm(
+          "Are you sure you want to delete this node?"
+        );
+        if (confirmation) {
+          node.parentNode.removeChild(node);
+        }
+      }
+
+      function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+      }
+    </script>
+  </body>
+</html>
